@@ -23,8 +23,16 @@ export default function Home() {
 
     try {
       const result = await generateResponse({prompt});
-      // Adding a fallback in case the AI returns null
-      setResponse(result.response || 'No response received.');
+      if (result && result.response) {
+        setResponse(result.response);
+      } else {
+        setResponse('No response received.');
+        toast({
+          title: 'No Response',
+          description: 'The AI did not return a response. Please try again.',
+          variant: 'warning',
+        });
+      }
     } catch (error: any) {
       console.error('Error generating response:', error);
       toast({
@@ -62,11 +70,11 @@ export default function Home() {
         </Card>
       )}
 
-      <p className="text-sm mt-8 text-muted-foreground">
+      <p className="text-xs mt-8 text-center text-muted-foreground">
         Disclaimer: This application provides unrestricted access to AI. Users
         are responsible for the prompts they enter and the content generated.
       </p>
-      <p className="text-xs mt-2 text-muted-foreground">
+      <p className="text-xs mt-2 text-center text-muted-foreground">
         Copyright © {new Date().getFullYear()} Begins.site. All rights reserved.
       </p>
     </div>
