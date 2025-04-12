@@ -23,7 +23,8 @@ export default function Home() {
 
     try {
       const result = await generateResponse({prompt});
-      setResponse(result.response);
+      // Adding a fallback in case the AI returns null
+      setResponse(result.response || 'No response received.');
     } catch (error: any) {
       console.error('Error generating response:', error);
       toast({
@@ -39,11 +40,11 @@ export default function Home() {
   return (
     <div className="flex flex-col items-center justify-center min-h-screen p-4">
       <Toaster />
-      <h1 className="text-2xl font-bold mb-4">Unrestricted AI Accessor</h1>
+      <h1 className="text-3xl font-bold mb-4 shadow-md">Unrestricted AI Accessor</h1>
 
       <Textarea
         placeholder="Enter your prompt here..."
-        className="w-full max-w-2xl mb-4"
+        className="w-full max-w-2xl mb-4 shadow-lg"
         value={prompt}
         onChange={handlePromptChange}
       />
@@ -53,7 +54,7 @@ export default function Home() {
       </Button>
 
       {response && (
-        <Card className="w-full max-w-2xl mt-4 bg-background text-foreground">
+        <Card className="w-full max-w-2xl mt-4 shadow-xl bg-background text-foreground">
           <CardContent>
             <h2 className="text-lg font-semibold mb-2">Response:</h2>
             <p>{response}</p>
@@ -64,6 +65,9 @@ export default function Home() {
       <p className="text-sm mt-8 text-muted-foreground">
         Disclaimer: This application provides unrestricted access to AI. Users
         are responsible for the prompts they enter and the content generated.
+      </p>
+      <p className="text-xs mt-2 text-muted-foreground">
+        Copyright © {new Date().getFullYear()} Begins.site. All rights reserved.
       </p>
     </div>
   );
